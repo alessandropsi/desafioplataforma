@@ -160,7 +160,7 @@ function Painel() {
                     color: "#EDF2EF",
                   }}
                   labelStyle={{ color: "#8FA39B", marginBottom: 4 }}
-                  formatter={(v: number, name: string) => [formatBRL(v), name === "saldo" ? "Saldo" : "Com Reforma"]}
+                  formatter={(v, name) => [formatBRL(Number(v)), name === "saldo" ? "Saldo" : "Com Reforma"]}
                 />
                 <ReferenceLine y={0} stroke="#E8694A" strokeWidth={1} strokeDasharray="3 3" />
                 {/* Risk area: below zero */}
