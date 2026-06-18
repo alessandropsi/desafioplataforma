@@ -291,7 +291,7 @@ function Painel() {
 
         <section className="border-t border-divider py-8 text-sm text-muted-foreground">
           <Link to="/whatsapp" className="hover:text-foreground">
-            → Veja como o Rumo responde direto no seu WhatsApp
+            → Veja como o AgentHub responde direto no seu WhatsApp
           </Link>
         </section>
       </main>
