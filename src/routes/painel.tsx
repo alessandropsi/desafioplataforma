@@ -30,7 +30,7 @@ export const Route = createFileRoute("/painel")({
 });
 
 function Painel() {
-  const { data } = useBusiness();
+  const { data, nome } = useBusiness();
   const [reforma, setReforma] = useState(false);
   const [reducao, setReducao] = useState(0);
   const [atraso, setAtraso] = useState(0);
