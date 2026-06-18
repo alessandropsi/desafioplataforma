@@ -2,6 +2,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 
 export type BusinessData = {
   empresa: string;
+  cnpj: string;
   setor: string;
   regime: string;
   faturamento: number;
@@ -12,6 +13,7 @@ export type BusinessData = {
 export const PERFIS: BusinessData[] = [
   {
     empresa: "Loja Estação Norte",
+    cnpj: "11.222.333/4445-78",
     setor: "Comércio/Varejo",
     regime: "Simples Nacional",
     faturamento: 45000,
@@ -20,6 +22,7 @@ export const PERFIS: BusinessData[] = [
   },
   {
     empresa: "Espaço Bela Vista",
+    cnpj: "22.333.444/5556-47",
     setor: "Serviços",
     regime: "Simples Nacional",
     faturamento: 28000,
@@ -28,6 +31,7 @@ export const PERFIS: BusinessData[] = [
   },
   {
     empresa: "Ferragens Lopes",
+    cnpj: "33.444.555/6667-16",
     setor: "Comércio/Varejo",
     regime: "Lucro Presumido",
     faturamento: 62000,
@@ -35,6 +39,31 @@ export const PERFIS: BusinessData[] = [
     saldo: 12000,
   },
 ];
+
+export function mascaraCNPJ(v: string): string {
+  const d = v.replace(/\D/g, "").slice(0, 14);
+  return d
+    .replace(/^(\d{2})(\d)/, "$1.$2")
+    .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+    .replace(/\.(\d{3})(\d)/, ".$1/$2")
+    .replace(/(\d{4})(\d)/, "$1-$2");
+}
+
+export function validarCNPJ(v: string): boolean {
+  const d = v.replace(/\D/g, "");
+  if (d.length !== 14) return false;
+  if (/^(\d)\1+$/.test(d)) return false;
+  const calc = (base: string, pesos: number[]) => {
+    const s = base.split("").reduce((acc, n, i) => acc + Number(n) * pesos[i], 0);
+    const r = s % 11;
+    return r < 2 ? 0 : 11 - r;
+  };
+  const p1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+  const p2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+  const d1 = calc(d.slice(0, 12), p1);
+  const d2 = calc(d.slice(0, 12) + d1, p2);
+  return d1 === Number(d[12]) && d2 === Number(d[13]);
+}
 
 export function perfilParaNome(nome: string): number {
   const limpo = nome.trim().toLowerCase();
