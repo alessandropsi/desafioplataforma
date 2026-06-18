@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useBusiness } from "@/lib/business-context";
+import { mascaraCNPJ, useBusiness, validarCNPJ } from "@/lib/business-context";
+
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
@@ -45,6 +46,27 @@ function Onboarding() {
               className="w-full bg-transparent text-lg text-foreground outline-none"
             />
           </Field>
+
+          <Field label="CNPJ">
+            <div className="flex flex-col gap-1 md:flex-row md:items-center md:gap-4">
+              <input
+                type="text"
+                inputMode="numeric"
+                value={data.cnpj}
+                onChange={(e) => setData({ ...data, cnpj: mascaraCNPJ(e.target.value) })}
+                placeholder="00.000.000/0000-00"
+                className="tabular w-full bg-transparent text-lg text-foreground outline-none"
+              />
+              {data.cnpj && (
+                validarCNPJ(data.cnpj) ? (
+                  <span className="text-xs text-positive">✓ CNPJ válido</span>
+                ) : (
+                  <span className="text-xs text-muted-foreground">CNPJ inválido</span>
+                )
+              )}
+            </div>
+          </Field>
+
 
           <Field label="Setor">
             <select
