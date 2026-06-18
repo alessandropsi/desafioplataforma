@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useBusiness } from "@/lib/business-context";
+import { mascaraCNPJ, useBusiness, validarCNPJ } from "@/lib/business-context";
+
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
