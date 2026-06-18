@@ -56,13 +56,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Rumo — Copiloto financeiro preditivo para PMEs" },
+      { title: "AgentHub — Copiloto financeiro preditivo para PMEs" },
       {
         name: "description",
         content:
           "Visualize o futuro do caixa do seu negócio nos próximos 90 dias e antecipe riscos antes que aconteçam.",
       },
-      { property: "og:title", content: "Rumo — Copiloto financeiro preditivo" },
+      { property: "og:title", content: "AgentHub — Copiloto financeiro preditivo" },
       {
         property: "og:description",
         content: "Projeção de caixa, simulação da Reforma Tributária e cenários em tempo real.",

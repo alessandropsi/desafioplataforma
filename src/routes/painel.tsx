@@ -18,7 +18,7 @@ import { calcularProjecao, formatBRL, useBusiness } from "@/lib/business-context
 export const Route = createFileRoute("/painel")({
   head: () => ({
     meta: [
-      { title: "Painel Preditivo · Rumo" },
+      { title: "Painel Preditivo · AgentHub" },
       {
         name: "description",
         content:
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/painel")({
 });
 
 function Painel() {
-  const { data } = useBusiness();
+  const { data, nome } = useBusiness();
   const [reforma, setReforma] = useState(false);
   const [reducao, setReducao] = useState(0);
   const [atraso, setAtraso] = useState(0);
@@ -90,6 +90,7 @@ function Painel() {
         {/* Header */}
         <section className="flex flex-col gap-6 border-b border-divider pb-10 md:flex-row md:items-end md:justify-between">
           <div>
+            {nome && <div className="eyebrow mb-2">Olá, {nome}</div>}
             <div className="eyebrow">{data.setor} · {data.regime}</div>
             <h1 className="font-display mt-3 text-3xl text-foreground md:text-4xl">{data.empresa}</h1>
           </div>
@@ -290,7 +291,7 @@ function Painel() {
 
         <section className="border-t border-divider py-8 text-sm text-muted-foreground">
           <Link to="/whatsapp" className="hover:text-foreground">
-            → Veja como o Rumo responde direto no seu WhatsApp
+            → Veja como o AgentHub responde direto no seu WhatsApp
           </Link>
         </section>
       </main>

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WhatsappRouteImport } from './routes/whatsapp'
 import { Route as PlataformaRouteImport } from './routes/plataforma'
 import { Route as PainelRouteImport } from './routes/painel'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WhatsappRoute = WhatsappRouteImport.update({
@@ -29,6 +30,11 @@ const PainelRoute = PainelRouteImport.update({
   path: '/painel',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRoute
   '/painel': typeof PainelRoute
   '/plataforma': typeof PlataformaRoute
   '/whatsapp': typeof WhatsappRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRoute
   '/painel': typeof PainelRoute
   '/plataforma': typeof PlataformaRoute
   '/whatsapp': typeof WhatsappRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRoute
   '/painel': typeof PainelRoute
   '/plataforma': typeof PlataformaRoute
   '/whatsapp': typeof WhatsappRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/painel' | '/plataforma' | '/whatsapp'
+  fullPaths: '/' | '/onboarding' | '/painel' | '/plataforma' | '/whatsapp'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/painel' | '/plataforma' | '/whatsapp'
-  id: '__root__' | '/' | '/painel' | '/plataforma' | '/whatsapp'
+  to: '/' | '/onboarding' | '/painel' | '/plataforma' | '/whatsapp'
+  id: '__root__' | '/' | '/onboarding' | '/painel' | '/plataforma' | '/whatsapp'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  OnboardingRoute: typeof OnboardingRoute
   PainelRoute: typeof PainelRoute
   PlataformaRoute: typeof PlataformaRoute
   WhatsappRoute: typeof WhatsappRoute
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PainelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  OnboardingRoute: OnboardingRoute,
   PainelRoute: PainelRoute,
   PlataformaRoute: PlataformaRoute,
   WhatsappRoute: WhatsappRoute,
