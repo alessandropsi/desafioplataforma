@@ -18,7 +18,7 @@ import { calcularProjecao, formatBRL, useBusiness } from "@/lib/business-context
 export const Route = createFileRoute("/painel")({
   head: () => ({
     meta: [
-      { title: "Painel Preditivo · Rumo" },
+      { title: "Painel Preditivo · AgentHub" },
       {
         name: "description",
         content:
