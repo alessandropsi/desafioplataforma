@@ -90,6 +90,7 @@ function Painel() {
         {/* Header */}
         <section className="flex flex-col gap-6 border-b border-divider pb-10 md:flex-row md:items-end md:justify-between">
           <div>
+            {nome && <div className="eyebrow mb-2">Olá, {nome}</div>}
             <div className="eyebrow">{data.setor} · {data.regime}</div>
             <h1 className="font-display mt-3 text-3xl text-foreground md:text-4xl">{data.empresa}</h1>
           </div>
