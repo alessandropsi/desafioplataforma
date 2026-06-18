@@ -62,13 +62,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Visualize o futuro do caixa do seu negócio nos próximos 90 dias e antecipe riscos antes que aconteçam.",
       },
-      { property: "og:title", content: "AgentHub — Copiloto financeiro preditivo" },
+      { property: "og:title", content: "AgentHub — Copiloto financeiro preditivo para PMEs" },
       {
         property: "og:description",
         content: "Projeção de caixa, simulação da Reforma Tributária e cenários em tempo real.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "AgentHub — Copiloto financeiro preditivo para PMEs" },
+      { name: "description", content: "Pixel Perfect replicates UI designs from screenshots, ensuring exact visual fidelity for web applications." },
+      { property: "og:description", content: "Pixel Perfect replicates UI designs from screenshots, ensuring exact visual fidelity for web applications." },
+      { name: "twitter:description", content: "Pixel Perfect replicates UI designs from screenshots, ensuring exact visual fidelity for web applications." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e71bac48-989a-4eda-9dbc-a9f8a939005d/id-preview-e248f4e9--b75f58eb-953e-4a9b-81c7-9a7a532c4d0f.lovable.app-1781752884928.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e71bac48-989a-4eda-9dbc-a9f8a939005d/id-preview-e248f4e9--b75f58eb-953e-4a9b-81c7-9a7a532c4d0f.lovable.app-1781752884928.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
