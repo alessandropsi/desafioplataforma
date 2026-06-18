@@ -4,11 +4,11 @@ import { AppNav } from "@/components/app-nav";
 export const Route = createFileRoute("/plataforma")({
   head: () => ({
     meta: [
-      { title: "Plataforma Rumo · Próximos agentes" },
+      { title: "Plataforma AgentHub · Próximos agentes" },
       {
         name: "description",
         content:
-          "A visão de plataforma do Rumo: cinco agentes financeiros e operacionais para a sua PME.",
+          "A visão de plataforma do AgentHub: cinco agentes financeiros e operacionais para a sua PME.",
       },
     ],
   }),
@@ -48,9 +48,9 @@ function Plataforma() {
     <div className="min-h-screen">
       <AppNav />
       <main className="mx-auto max-w-4xl px-6 py-16 md:px-10 md:py-24">
-        <div className="eyebrow">Plataforma Rumo</div>
+        <div className="eyebrow">Plataforma AgentHub</div>
         <h1 className="font-display mt-4 text-4xl leading-[1.1] text-foreground md:text-5xl">
-          O Rumo está construindo o copiloto financeiro completo para PMEs brasileiras.
+          O AgentHub está construindo o copiloto financeiro completo para PMEs brasileiras.
         </h1>
 
         <ul className="mt-16 border-t border-divider">
@@ -80,7 +80,7 @@ function Plataforma() {
 
         <p className="font-display mt-12 text-lg italic leading-relaxed text-muted-foreground md:text-xl">
           Todos os agentes compartilham a mesma base de dados financeiros e operacionais da sua
-          empresa — quanto mais você usa o Rumo, mais inteligente ele fica.
+          empresa — quanto mais você usa o AgentHub, mais inteligente ele fica.
         </p>
       </main>
     </div>

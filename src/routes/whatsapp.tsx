@@ -6,10 +6,10 @@ import { calcularProjecao, useBusiness } from "@/lib/business-context";
 export const Route = createFileRoute("/whatsapp")({
   head: () => ({
     meta: [
-      { title: "Modo WhatsApp · Rumo" },
+      { title: "Modo WhatsApp · AgentHub" },
       {
         name: "description",
-        content: "Veja como o copiloto Rumo responde diretamente no WhatsApp do empreendedor.",
+        content: "Veja como o copiloto AgentHub responde diretamente no WhatsApp do empreendedor.",
       },
     ],
   }),
@@ -25,7 +25,7 @@ function WhatsAppMode() {
   const dataRisco = negativa ? negativa.data : "fim do mês";
 
   const script: Msg[] = [
-    { from: "user", text: "Rumo, como tá meu caixa esse mês?" },
+    { from: "user", text: "AgentHub, como tá meu caixa esse mês?" },
     {
       from: "rumo",
       text: `Seu saldo atual é R$ ${data.saldo.toLocaleString("pt-BR")}. Na taxa atual de gastos, você deve ficar negativo na semana de ${dataRisco}. Quer que eu simule um jeito de evitar isso?`,
@@ -78,7 +78,7 @@ function WhatsAppMode() {
           Onde o empreendedor já está.
         </h1>
         <p className="mt-3 max-w-xl text-sm text-muted-foreground">
-          Em produção, o Rumo responde no próprio WhatsApp — sem aplicativo novo, sem painel para
+          Em produção, o AgentHub responde no próprio WhatsApp — sem aplicativo novo, sem painel para
           aprender.
         </p>
 
@@ -92,7 +92,7 @@ function WhatsAppMode() {
               </div>
               <div>
                 <div className="text-sm font-medium leading-tight" style={{ fontFamily: "system-ui, sans-serif" }}>
-                  Rumo
+                  AgentHub
                 </div>
                 <div className="text-[11px] opacity-80" style={{ fontFamily: "system-ui, sans-serif" }}>
                   online
@@ -139,7 +139,7 @@ function WhatsAppMode() {
           </div>
 
           <p className="mt-6 max-w-md text-center text-xs text-muted-foreground">
-            Simulação da experiência via WhatsApp Business API — em produção, o Rumo responde
+            Simulação da experiência via WhatsApp Business API — em produção, o AgentHub responde
             diretamente no seu WhatsApp, sem precisar abrir nenhum aplicativo novo.
           </p>
         </div>
