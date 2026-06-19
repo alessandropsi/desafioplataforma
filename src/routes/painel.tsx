@@ -18,7 +18,7 @@ import { calcularProjecao, formatBRL, useBusiness } from "@/lib/business-context
 export const Route = createFileRoute("/painel")({
   head: () => ({
     meta: [
-      { title: "Painel Preditivo · AgentHub" },
+      { title: "Agente de Caixa · Lume" },
       {
         name: "description",
         content:
@@ -291,7 +291,7 @@ function Painel() {
 
         <section className="border-t border-divider py-8 text-sm text-muted-foreground">
           <Link to="/whatsapp" className="hover:text-foreground">
-            → Veja como o AgentHub responde direto no seu WhatsApp
+            → Veja como o Lume responde direto no seu WhatsApp
           </Link>
         </section>
       </main>

@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WhatsappRouteImport } from './routes/whatsapp'
 import { Route as PlataformaRouteImport } from './routes/plataforma'
 import { Route as PainelRouteImport } from './routes/painel'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AgentesRouteImport } from './routes/agentes'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WhatsappRoute = WhatsappRouteImport.update({
@@ -29,6 +31,16 @@ const PainelRoute = PainelRouteImport.update({
   path: '/painel',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentesRoute = AgentesRouteImport.update({
+  id: '/agentes',
+  path: '/agentes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +49,16 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agentes': typeof AgentesRoute
+  '/dashboard': typeof DashboardRoute
   '/painel': typeof PainelRoute
   '/plataforma': typeof PlataformaRoute
   '/whatsapp': typeof WhatsappRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agentes': typeof AgentesRoute
+  '/dashboard': typeof DashboardRoute
   '/painel': typeof PainelRoute
   '/plataforma': typeof PlataformaRoute
   '/whatsapp': typeof WhatsappRoute
@@ -50,20 +66,37 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agentes': typeof AgentesRoute
+  '/dashboard': typeof DashboardRoute
   '/painel': typeof PainelRoute
   '/plataforma': typeof PlataformaRoute
   '/whatsapp': typeof WhatsappRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/painel' | '/plataforma' | '/whatsapp'
+  fullPaths:
+    | '/'
+    | '/agentes'
+    | '/dashboard'
+    | '/painel'
+    | '/plataforma'
+    | '/whatsapp'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/painel' | '/plataforma' | '/whatsapp'
-  id: '__root__' | '/' | '/painel' | '/plataforma' | '/whatsapp'
+  to: '/' | '/agentes' | '/dashboard' | '/painel' | '/plataforma' | '/whatsapp'
+  id:
+    | '__root__'
+    | '/'
+    | '/agentes'
+    | '/dashboard'
+    | '/painel'
+    | '/plataforma'
+    | '/whatsapp'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentesRoute: typeof AgentesRoute
+  DashboardRoute: typeof DashboardRoute
   PainelRoute: typeof PainelRoute
   PlataformaRoute: typeof PlataformaRoute
   WhatsappRoute: typeof WhatsappRoute
@@ -92,6 +125,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PainelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agentes': {
+      id: '/agentes'
+      path: '/agentes'
+      fullPath: '/agentes'
+      preLoaderRoute: typeof AgentesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +151,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentesRoute: AgentesRoute,
+  DashboardRoute: DashboardRoute,
   PainelRoute: PainelRoute,
   PlataformaRoute: PlataformaRoute,
   WhatsappRoute: WhatsappRoute,
@@ -111,13 +160,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
