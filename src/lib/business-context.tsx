@@ -13,7 +13,7 @@ export type BusinessData = {
 export const PERFIS: BusinessData[] = [
   {
     empresa: "Loja Estação Norte",
-    cnpj: "11.222.333/4445-78",
+    cnpj: "11.222.333/0001-81",
     setor: "Comércio/Varejo",
     regime: "Simples Nacional",
     faturamento: 45000,
@@ -22,7 +22,7 @@ export const PERFIS: BusinessData[] = [
   },
   {
     empresa: "Espaço Bela Vista",
-    cnpj: "22.333.444/5556-47",
+    cnpj: "22.333.444/0001-81",
     setor: "Serviços",
     regime: "Simples Nacional",
     faturamento: 28000,
@@ -31,7 +31,7 @@ export const PERFIS: BusinessData[] = [
   },
   {
     empresa: "Ferragens Lopes",
-    cnpj: "33.444.555/6667-16",
+    cnpj: "33.444.555/0001-81",
     setor: "Comércio/Varejo",
     regime: "Lucro Presumido",
     faturamento: 62000,
@@ -105,14 +105,11 @@ export function useBusiness() {
   return ctx;
 }
 
-function mulberry32(seed: number) {
-  return function () {
-    let t = (seed += 0x6d2b79f5);
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
+// Fixed sequence noise — deterministic, not Math.random
+const RUIDO_FIXO = [
+  1.04, 0.96, 1.07, 0.93, 1.02, 0.95, 1.06, 0.98,
+  1.03, 0.94, 1.05, 0.97,
+];
 
 export type Projecao = {
   semana: number;
@@ -134,7 +131,6 @@ const REFORMA_PCT = [
 ];
 
 export function calcularProjecao(d: BusinessData, c: Cenario): Projecao[] {
-  const rng = mulberry32(42);
   const entradaBase = d.faturamento / 4.3;
   const saidaBase = d.contas / 4.3;
   const fatorReducao = 1 - c.reducaoFaturamento;
@@ -145,7 +141,7 @@ export function calcularProjecao(d: BusinessData, c: Cenario): Projecao[] {
   const hoje = new Date();
 
   for (let i = 0; i < 12; i++) {
-    const ruido = 1 + (rng() - 0.5) * 0.16;
+    const ruido = RUIDO_FIXO[i];
     const entradaSemana = entradaBase * ruido * fatorReducao;
 
     let saidaSemana = saidaBase;
