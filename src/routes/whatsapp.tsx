@@ -1,68 +1,48 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { AppNav } from "@/components/app-nav";
-import { calcularProjecao, useBusiness } from "@/lib/business-context";
 
 export const Route = createFileRoute("/whatsapp")({
   head: () => ({
     meta: [
-      { title: "Modo WhatsApp · AgentHub" },
-      {
-        name: "description",
-        content: "Veja como o copiloto AgentHub responde diretamente no WhatsApp do empreendedor.",
-      },
+      { title: "Modo WhatsApp · Lume" },
+      { name: "description", content: "Veja como o Lume responde diretamente no WhatsApp do empreendedor." },
     ],
   }),
   component: WhatsAppMode,
 });
 
-type Msg = { from: "user" | "rumo"; text: string };
+type Msg = { from: "user" | "lume"; text: string };
+
+const SCRIPT: Msg[] = [
+  { from: "user", text: "Lume, como tá meu caixa esse mês?" },
+  { from: "lume", text: "Seu saldo atual é R$ 18.000. No ritmo atual, você fica negativo em 18/ago. Quer que eu simule como evitar isso?" },
+  { from: "user", text: "Quero sim" },
+  { from: "lume", text: "Se você atrasar o pagamento do fornecedor principal em 6 dias, seu caixa fica positivo até o fim do mês. Posso te lembrar na quinta-feira?" },
+  { from: "user", text: "Pode. E a reforma tributária vai afetar meu preço?" },
+  { from: "lume", text: "Vai sim. Com CBS e IBS, sua margem aperta gradualmente a partir de abril. Recomendo revisar seu preço em até 60 dias. Quer ver a simulação completa?" },
+];
+
+const DELAYS_LUME = [0, 1500, 0, 1000, 0, 2000];
 
 function WhatsAppMode() {
-  const { data } = useBusiness();
-  const projecao = calcularProjecao(data, { reducaoFaturamento: 0, atrasoFornecedor: 0, comReforma: false });
-  const negativa = projecao.find((p) => p.saldo < 0);
-  const dataRisco = negativa ? negativa.data : "fim do mês";
-
-  const script: Msg[] = [
-    { from: "user", text: "AgentHub, como tá meu caixa esse mês?" },
-    {
-      from: "rumo",
-      text: `Seu saldo atual é R$ ${data.saldo.toLocaleString("pt-BR")}. Na taxa atual de gastos, você deve ficar negativo na semana de ${dataRisco}. Quer que eu simule um jeito de evitar isso?`,
-    },
-    { from: "user", text: "Quero sim" },
-    {
-      from: "rumo",
-      text: "Se você atrasar o pagamento do fornecedor principal em 6 dias, seu caixa fica positivo até o fim do mês. Posso te lembrar disso na quinta-feira?",
-    },
-    { from: "user", text: "Pode. E essa reforma tributária vai afetar meu preço?" },
-    {
-      from: "rumo",
-      text: "Vai sim. Com a CBS e o IBS entrando em vigor, sua margem aperta gradualmente a partir de abril. Recomendo revisar seu preço em até 60 dias. Quer que eu te mostre a simulação completa?",
-    },
-  ];
-
-  const [visible, setVisible] = useState<number>(0);
+  const [visible, setVisible] = useState(0);
   const [typing, setTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (visible >= script.length) return;
-    const next = script[visible];
-    const delay = next.from === "rumo" ? 900 : 500;
+    if (visible >= SCRIPT.length) return;
+    const next = SCRIPT[visible];
+    if (next.from === "user") {
+      const t = setTimeout(() => setVisible((v) => v + 1), 500);
+      return () => clearTimeout(t);
+    }
+    setTyping(true);
     const t = setTimeout(() => {
-      if (next.from === "rumo") {
-        setTyping(true);
-        setTimeout(() => {
-          setTyping(false);
-          setVisible((v) => v + 1);
-        }, 1100);
-      } else {
-        setVisible((v) => v + 1);
-      }
-    }, delay);
+      setTyping(false);
+      setVisible((v) => v + 1);
+    }, DELAYS_LUME[visible] || 1500);
     return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
   useEffect(() => {
@@ -78,21 +58,18 @@ function WhatsAppMode() {
           Onde o empreendedor já está.
         </h1>
         <p className="mt-3 max-w-xl text-sm text-muted-foreground">
-          Em produção, o AgentHub responde no próprio WhatsApp — sem aplicativo novo, sem painel para
-          aprender.
+          Em produção, o Lume responde no próprio WhatsApp — sem aplicativo novo, sem painel para aprender.
         </p>
 
         <div className="mt-12 flex flex-col items-center">
-          {/* Phone container */}
           <div className="w-full max-w-[390px] overflow-hidden rounded-[28px] border border-divider bg-[#E5DDD5]">
-            {/* Top bar */}
             <div className="flex items-center gap-3 bg-[#075E54] px-4 py-3 text-white">
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#128C7E] font-display text-base">
-                R
+                L
               </div>
               <div>
                 <div className="text-sm font-medium leading-tight" style={{ fontFamily: "system-ui, sans-serif" }}>
-                  AgentHub
+                  Lume
                 </div>
                 <div className="text-[11px] opacity-80" style={{ fontFamily: "system-ui, sans-serif" }}>
                   online
@@ -100,7 +77,6 @@ function WhatsAppMode() {
               </div>
             </div>
 
-            {/* Chat */}
             <div
               ref={scrollRef}
               className="h-[480px] space-y-2 overflow-y-auto px-3 py-4"
@@ -111,13 +87,11 @@ function WhatsAppMode() {
                 backgroundSize: "20px 20px",
               }}
             >
-              {script.slice(0, visible).map((m, i) => (
-                <Bubble key={i} from={m.from}>
-                  {m.text}
-                </Bubble>
+              {SCRIPT.slice(0, visible).map((m, i) => (
+                <Bubble key={i} from={m.from}>{m.text}</Bubble>
               ))}
               {typing && (
-                <Bubble from="rumo">
+                <Bubble from="lume">
                   <span className="inline-flex gap-1">
                     <Dot delay={0} />
                     <Dot delay={150} />
@@ -127,7 +101,6 @@ function WhatsAppMode() {
               )}
             </div>
 
-            {/* Input */}
             <div className="flex items-center gap-2 border-t border-black/10 bg-[#F0F0F0] px-3 py-2">
               <div className="flex-1 rounded-full bg-white px-4 py-2 text-xs text-gray-400" style={{ fontFamily: "system-ui" }}>
                 Digite uma mensagem
@@ -139,8 +112,7 @@ function WhatsAppMode() {
           </div>
 
           <p className="mt-6 max-w-md text-center text-xs text-muted-foreground">
-            Simulação da experiência via WhatsApp Business API — em produção, o AgentHub responde
-            diretamente no seu WhatsApp, sem precisar abrir nenhum aplicativo novo.
+            Simulação via WhatsApp Business API — em produção, o Lume responde diretamente no seu WhatsApp.
           </p>
         </div>
       </main>
@@ -148,7 +120,7 @@ function WhatsAppMode() {
   );
 }
 
-function Bubble({ from, children }: { from: "user" | "rumo"; children: React.ReactNode }) {
+function Bubble({ from, children }: { from: "user" | "lume"; children: React.ReactNode }) {
   const isUser = from === "user";
   return (
     <div className={"flex " + (isUser ? "justify-end" : "justify-start")}>
