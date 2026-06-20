@@ -1,7 +1,7 @@
 export default function App() {
   return (
-    <div>
-      <h1>App rodando no Vercel 🚀</h1>
+    <div style={{ padding: 40 }}>
+      <h1>App funcionando 🚀</h1>
     </div>
   )
 }
